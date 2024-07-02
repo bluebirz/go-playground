@@ -7,9 +7,25 @@ import (
 	"log"
 	"net/http"
 	"os"
+
+	"gopkg.in/yaml.v3"
 )
 
 const PORT = 8010
+
+func getContractSchema() {
+	data, err := os.ReadFile("./contracts/people.yml")
+	if err != nil {
+		fmt.Printf("err readfile: %+v\n", err)
+	}
+
+	var schema map[string]interface{}
+	err = yaml.Unmarshal(data, &schema)
+	if err != nil {
+		fmt.Printf("err unmarshal: %+v\n", err)
+	}
+	fmt.Printf("contract: %+v\n", schema)
+}
 
 func validatePeople(w http.ResponseWriter, req *http.Request) {
 	var data map[string]interface{}
@@ -17,12 +33,13 @@ func validatePeople(w http.ResponseWriter, req *http.Request) {
 	if err != nil {
 		panic(err)
 	}
-	fmt.Print(data)
+	fmt.Printf("data: %+v\n", data)
 	if v, ok := data["name"]; ok {
 		fmt.Print(v)
 	} else {
 		fmt.Print("no name")
 	}
+	getContractSchema()
 	// if err != nil {
 	// 	http.Error(w, err.Error(), http.StatusBadRequest)
 	// 	return

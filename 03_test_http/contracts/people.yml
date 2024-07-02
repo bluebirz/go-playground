@@ -1,0 +1,39 @@
+openapi: '3.0.2'
+info:
+  title: API Title
+  version: '1.0'
+servers:
+  - url: https://api.server.test/v1
+paths:
+  /people:
+    post:
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/people'
+      responses:
+        '201':
+          description: Created
+        '400':
+          description: Bad request
+components:
+  schemas:
+    people:
+      type: object
+      required:
+        - "name"
+      properties:
+        name:
+          description: name of this people
+          type: string
+          example: "Michael"
+        age:
+          description: age of this people
+          type: number
+          example: 18
+        email:
+          description: contact email of this people
+          type: string
+          example: 'test@email.com'
